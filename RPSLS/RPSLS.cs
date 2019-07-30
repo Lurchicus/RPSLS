@@ -7,7 +7,7 @@ namespace RPSLS
     /// </summary>
     class RPSLS
     {
-        // Player and Computer alias
+        // Player and Computer alias for each round
         public static string[] Alias = { "Rock", "Paper", "Scissors", "Lizard", "Spock" };
 
         // Extended rules
@@ -32,16 +32,16 @@ namespace RPSLS
               "are broken by", "cuts",            "matches",           "decapatate",     "is smashed by",   // Scissors
               "is crushed by", "eats",            "is decapitated by", "matches",        "poisons",         // Lizard
               "vaporizes",     "is disproved by", "smashes",           "is poisoned by", "matches"          // Spock
-        };
+        }; // Horizontal player alias vs vertical computer alias
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             bool Debug = false; // Turn inline debugging on or off
             int PlayerScore = 0; // Player score
             int ComputerScore = 0; // Computer score
             string Result = ""; // Result string
 
-            Random Rando = new Random(); // RNG for the computer
+            Random Rando = new Random(); // Some RNG for the computer
 
             Console.WriteLine("RPSLS (input Rock, Paper, Scissors, Lizard or Spock) v1.0!");
             Console.Write("RPSLS>");
@@ -49,13 +49,13 @@ namespace RPSLS
             string Input = Console.ReadLine();
             while (Input != null)
             {
-                int Computer = Rando.Next(4);
-                int Player = ParseInput(Input);
+                int Computer = Rando.Next(4); // RNG computer alias
+                int Player = ParseInput(Input); // Figure out the player alias
                 if (Debug) {
                     Console.WriteLine("Player:{0} Computer:{1}", Player, Computer);
                 }
 
-                if (Player == -2) { Input = null; break; }
+                if (Player == -2) { Input = null; break; } // Exit check
                 if (Player == -1)
                 {
                     Console.WriteLine("I don't understand that, enter "+
@@ -68,6 +68,7 @@ namespace RPSLS
                     int Verbs = ((Player) * 5) + Computer;
                     if (Debug) { Console.WriteLine("Verbs:{0}", Verbs); }
 
+                    // Determine the results for the round
                     switch (VerbMap[Verbs])
                     {
                         case -1:
@@ -89,23 +90,31 @@ namespace RPSLS
                                       Alias[Player], VerbList[Verbs], Alias[Computer], 
                                       Result, PlayerScore, ComputerScore);
                 }
+                // prompt the player for the next round
                 Console.Write("RPSLS>");
                 Input = Console.ReadLine();
             }
         }
 
-        static int ParseInput(string Input)
+        /// <summary>
+        /// See if player entered a valid alias
+        /// </summary>
+        /// <param name="Input">Alias string</param>
+        /// <returns>Alias index or -1 invalid or -2 exit</returns>
+        private static int ParseInput(string Input)
         {
             int Ret = -1;
-            for (int Ix = 0; Ix < 5; Ix++)
+            for (int Ix = 0; Ix < Alias.Length; Ix++)
             {
-                string Check = Alias[Ix];
-                if (Input.ToLower() == Check.ToLower())
+                // Scan for an alias
+                if (Input.ToLower() == Alias[Ix].ToLower())
                 {
                     Ret = Ix;
                     break;
                 }
             }
+
+            // Not an alias...
             if (Ret == -1)
             {
                 if (Input.Length > 0)
@@ -115,7 +124,7 @@ namespace RPSLS
                 }
                 else
                 {
-                    // Nothing entered, lets exit
+                    // Nothing entered so exit
                     Ret = -2;
                 }
             }
