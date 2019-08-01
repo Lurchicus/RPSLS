@@ -58,7 +58,7 @@ namespace RPSLS
                 if (Player == -2) { Input = null; break; } // Exit check
                 if (Player == -1)
                 {
-                    Console.WriteLine("I don't understand that, enter "+
+                    Console.WriteLine("I don't understand "+ Input +", enter "+
                                       "Rock, Paper, Scissors, Lizard or Spock " +
                                       "or enter nothing to exit.\n");
                 }
@@ -104,6 +104,9 @@ namespace RPSLS
         private static int ParseInput(string Input)
         {
             int Ret = -1;
+
+            if (Input.Length == 0) { return -2; }
+
             for (int Ix = 0; Ix < Alias.Length; Ix++)
             {
                 // Scan for an alias
@@ -115,20 +118,9 @@ namespace RPSLS
             }
 
             // Not an alias...
-            if (Ret == -1)
-            {
-                if (Input.Length > 0)
-                {
-                    // Huh? Invalid input
-                    Ret = -1;
-                }
-                else
-                {
-                    // Nothing entered so exit
-                    Ret = -2;
-                }
-            }
-            return Ret;
+            if (Ret == -1) { return -1; }
+
+            return Ret; // Alias index
         }
     }
 }
