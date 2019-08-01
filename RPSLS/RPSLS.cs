@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Reflection;
+using System.IO;
 
 namespace RPSLS
 {
     /// <summary>
-    /// A console version of the game Rock, Paper, Scissors, Lizard, Spock as invented by Sam Kass and Karen Bryla
+    /// A console version of the game Rock, Paper, Scissors, Lizard, Spock as 
+    /// invented by Sam Kass and Karen Bryla
     /// </summary>
     class RPSLS
     {
@@ -43,8 +46,8 @@ namespace RPSLS
 
             Random Rando = new Random(); // Some RNG for the computer
 
-            Console.WriteLine("RPSLS (input Rock, Paper, Scissors, Lizard or Spock) v1.0!");
-            Console.Write("RPSLS>");
+            Wl("RPSLS (input Rock, Paper, Scissors, Lizard or Spock) v1.0!");
+            W("RPSLS>");
 
             string Input = Console.ReadLine();
             while (Input != null)
@@ -55,13 +58,25 @@ namespace RPSLS
                     Console.WriteLine("Player:{0} Computer:{1}", Player, Computer);
                 }
 
-                if (Player == -2) { Input = null; break; } // Exit check
-                if (Player == -1)
+                if (Player == -2)
                 {
-                    Console.WriteLine("I don't understand "+ Input +", enter "+
-                                      "Rock, Paper, Scissors, Lizard or Spock " +
-                                      "or enter nothing to exit.\n");
+                    break; // Exit 
+                } 
+                else if (Player == -1)
+                {
+                    Wl("I don't understand " + Input + ", enter \"Rock\", \"Paper\", "+
+                        "\"Scissors\", \"Lizard\" or \"Spock\", or enter \"License\" to view "+
+                        "the license or enter nothing to exit.\n");
                 }
+                else if (Player == -3)
+                {
+                    ShowFile("\\gnu_gpl3.txt"); // Show GNU license
+                }
+                else if (Player == -4)
+                {
+                    Wl("Very funny..."); // They got qute and entered "nothing"
+                }
+
                 else
                 {
                     // Determine the index into the verb list
@@ -86,8 +101,8 @@ namespace RPSLS
                     }
 
                     // Show what happened and the results
-                    Console.WriteLine("{0} {1} {2}! {3} Player: {4} Computer: {5}\n", 
-                                      Alias[Player], VerbList[Verbs], Alias[Computer], 
+                    Console.WriteLine("{0} {1} {2}! {3} Player: {4} Computer: {5}\n",
+                                      Alias[Player], VerbList[Verbs], Alias[Computer],
                                       Result, PlayerScore, ComputerScore);
                 }
                 // prompt the player for the next round
@@ -117,10 +132,143 @@ namespace RPSLS
                 }
             }
 
-            // Not an alias...
+            if (Input.ToLower() == "nothing") { return -4; }
+            // License request?
+            if (Input.ToLower() == "license") { return -3; }
+
+            // Not an alias... Invalid input for now
             if (Ret == -1) { return -1; }
 
             return Ret; // Alias index
+        }
+
+        /// <summary>
+        /// Will display a paginated file to the Console. If a path
+        /// is not supplied, the same path where the program resides
+        /// is used
+        /// </summary>
+        /// <param name="File">File to display</param>
+        /// <param name="Path">Path the file resides in (optional)</param>
+        public static void ShowFile(String FileName, String PathName = null)
+        {
+            Int32 ScreenHeight = Console.WindowHeight;
+            Int32 ScreenWidth = Console.WindowWidth;
+            Int32 Row = 0;
+            String Inp = "";
+            String AppPath = "";
+
+            AppPath = SetPath(FileName, PathName);
+            try
+            {
+                using (StreamReader sr = new StreamReader(AppPath))
+                {
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        Wl(line);
+                        if (line.Length > ScreenWidth - 1)
+                        {
+                            Row = Row + (Int32)(line.Length / ScreenWidth - 1);
+                        }
+                        else
+                        {
+                            Row++;
+                        }
+                        if (Row >= ScreenHeight - 1)
+                        {
+                            Row = 0;
+                            W("Press Enter to continue (enter q to quit):");
+                            Inp = R();
+                            if (Inp == "q" || Inp == "Q")
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Wl("Could not read the text in file " + FileName + ".");
+                Wl(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Make sure we have a properly formed path. If initial path is empty,
+        /// set it to the application location.
+        /// </summary>
+        /// <param name="FileName">Name of file to show</param>
+        /// <param name="PathName">Path where file is located</param>
+        /// <returns>Fully formed path with filename</returns>
+        public static string SetPath(String FileName, String PathName = null)
+        {
+            String Nam = "";
+            String AppPath = "";
+
+            if (PathName == null)
+            {
+                AppPath = Assembly.GetExecutingAssembly().Location;
+                Nam = Path.GetFileName(AppPath);
+                AppPath = AppPath.Substring(0, AppPath.Length - Nam.Length);
+                if (FileName.Substring(0, 2) != "\\")
+                {
+                    AppPath += "\\" + FileName;
+                }
+                else
+                {
+                    AppPath += FileName;
+                }
+            }
+            else
+            {
+                if (FileName.Substring(0, 2) != "\\")
+                {
+                    AppPath += PathName + "\\" + FileName;
+                }
+                else
+                {
+                    AppPath = PathName + FileName;
+                }
+            }
+            return AppPath;
+        }
+
+        /// <summary>
+        /// wrapper function for Console.WriteLine()
+        /// </summary>
+        /// <param name="Msg">string to output</param>
+        public static void Wl(string Msg)
+        {
+            if (Msg != null)
+            {
+                Console.WriteLine(Msg);
+            }
+            else
+            {
+                Console.WriteLine();
+            }
+        }
+
+        /// <summary>
+        /// Wrapper function for Console.Write()
+        /// </summary>
+        /// <param name="Msg">string to output</param>
+        public static void W(string Msg)
+        {
+            if (Msg != null)
+            {
+                Console.Write(Msg);
+            }
+        }
+
+        /// <summary>
+        /// Wrapper function for Console.ReadLine
+        /// </summary>
+        /// <returns>string input</returns>
+        public static string R()
+        {
+            return Console.ReadLine();
         }
     }
 }
