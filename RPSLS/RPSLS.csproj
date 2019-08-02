@@ -6,6 +6,12 @@
     <Authors>Dan Rhea</Authors>
     <Description>A console based "Rock, Paper, Scissors, Lizard, Spock" game as invented by Sam Kass and Karen Bryla</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.1</Version>
+    <Copyright />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>C:\Users\danrh\Source\Repos\RPSLS\RPSLS\RPSLS.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

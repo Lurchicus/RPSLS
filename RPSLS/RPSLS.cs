@@ -46,7 +46,10 @@ namespace RPSLS
 
             Random Rando = new Random(); // Some RNG for the computer
 
-            Wl("RPSLS (input Rock, Paper, Scissors, Lizard or Spock) v1.0!");
+            Wl("RPSLS "+GetVersion()+" a Rock Paper Scissors Lizard Spock game\n" +
+               "as invented by  Sam Kass and Karen Bryla\n"+
+               "written by Dan Rhea © 2019\n"+
+               "under ther GPL3 license (enter \"License\" to view)\n");
             W("RPSLS>");
 
             string Input = Console.ReadLine();
@@ -58,25 +61,26 @@ namespace RPSLS
                     Console.WriteLine("Player:{0} Computer:{1}", Player, Computer);
                 }
 
-                if (Player == -2)
+                // Process player input
+                if (Player == -1)
+                {
+                    Wl("I don't understand \"" + Input + "\", enter \"Rock\", \"Paper\", "+
+                        "\"Scissors\", \"Lizard\" or \"Spock\", or\nenter \"License\" to view "+
+                        "the license or enter nothing to exit.\n");
+                }
+                else if (Player == -2)
                 {
                     break; // Exit 
-                } 
-                else if (Player == -1)
-                {
-                    Wl("I don't understand " + Input + ", enter \"Rock\", \"Paper\", "+
-                        "\"Scissors\", \"Lizard\" or \"Spock\", or enter \"License\" to view "+
-                        "the license or enter nothing to exit.\n");
                 }
                 else if (Player == -3)
                 {
-                    ShowFile("\\gnu_gpl3.txt"); // Show GNU license
+                    ShowFile("\\gnu_gpl3.txt"); // Show GNU GPL3 license
+                    Wl(" ");
                 }
                 else if (Player == -4)
                 {
-                    Wl("Very funny..."); // They got qute and entered "nothing"
+                    Wl("Very funny...\n"); // They got qute and entered "nothing" :)
                 }
-
                 else
                 {
                     // Determine the index into the verb list
@@ -105,10 +109,23 @@ namespace RPSLS
                                       Alias[Player], VerbList[Verbs], Alias[Computer],
                                       Result, PlayerScore, ComputerScore);
                 }
+
                 // prompt the player for the next round
                 Console.Write("RPSLS>");
                 Input = Console.ReadLine();
             }
+        }
+
+        /// <summary>
+        /// Get and return the program version
+        /// </summary>
+        /// <returns>version string</returns>
+        public static string GetVersion()
+        {
+            Assembly thisAsbly = typeof(RPSLS).Assembly;
+            AssemblyName thisAsblyName = thisAsbly.GetName();
+            Version ver = thisAsblyName.Version;
+            return ver.ToString();
         }
 
         /// <summary>
@@ -147,8 +164,8 @@ namespace RPSLS
         /// is not supplied, the same path where the program resides
         /// is used
         /// </summary>
-        /// <param name="File">File to display</param>
-        /// <param name="Path">Path the file resides in (optional)</param>
+        /// <param name="FileName">File to display</param>
+        /// <param name="PathName">Path the file resides in (optional)</param>
         public static void ShowFile(String FileName, String PathName = null)
         {
             Int32 ScreenHeight = Console.WindowHeight;

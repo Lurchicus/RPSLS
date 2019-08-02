@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RPSLS</name>
+    </assembly>
+    <members>
+        <member name="T:RPSLS.RPSLS">
+            <summary>
+            A console version of the game Rock, Paper, Scissors, Lizard, Spock as 
+            invented by Sam Kass and Karen Bryla
+            </summary>
+        </member>
+        <member name="M:RPSLS.RPSLS.GetVersion">
+            <summary>
+            Get and return the program version
+            </summary>
+            <returns>version string</returns>
+        </member>
+        <member name="M:RPSLS.RPSLS.ParseInput(System.String)">
+            <summary>
+            See if player entered a valid alias
+            </summary>
+            <param name="Input">Alias string</param>
+            <returns>Alias index or -1 invalid or -2 exit</returns>
+        </member>
+        <member name="M:RPSLS.RPSLS.ShowFile(System.String,System.String)">
+            <summary>
+            Will display a paginated file to the Console. If a path
+            is not supplied, the same path where the program resides
+            is used
+            </summary>
+            <param name="FileName">File to display</param>
+            <param name="PathName">Path the file resides in (optional)</param>
+        </member>
+        <member name="M:RPSLS.RPSLS.SetPath(System.String,System.String)">
+            <summary>
+            Make sure we have a properly formed path. If initial path is empty,
+            set it to the application location.
+            </summary>
+            <param name="FileName">Name of file to show</param>
+            <param name="PathName">Path where file is located</param>
+            <returns>Fully formed path with filename</returns>
+        </member>
+        <member name="M:RPSLS.RPSLS.Wl(System.String)">
+            <summary>
+            wrapper function for Console.WriteLine()
+            </summary>
+            <param name="Msg">string to output</param>
+        </member>
+        <member name="M:RPSLS.RPSLS.W(System.String)">
+            <summary>
+            Wrapper function for Console.Write()
+            </summary>
+            <param name="Msg">string to output</param>
+        </member>
+        <member name="M:RPSLS.RPSLS.R">
+            <summary>
+            Wrapper function for Console.ReadLine
+            </summary>
+            <returns>string input</returns>
+        </member>
+    </members>
+</doc>
