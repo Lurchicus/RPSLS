@@ -79,7 +79,7 @@ namespace RPSLS
                 }
                 else if (Player == -4)
                 {
-                    Wl("Very funny...\n"); // They got qute and entered "nothing" :)
+                    Wl("Very funny...\n"); // They got cute and entered "nothing" :)
                 }
                 else
                 {
@@ -148,12 +148,8 @@ namespace RPSLS
                     break;
                 }
             }
-
             if (Input.ToLower() == "nothing") { return -4; }
-            // License request?
             if (Input.ToLower() == "license") { return -3; }
-
-            // Not an alias... Invalid input for now
             if (Ret == -1) { return -1; }
 
             return Ret; // Alias index

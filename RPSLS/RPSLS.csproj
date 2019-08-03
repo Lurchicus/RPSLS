@@ -4,10 +4,10 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <Authors>Dan Rhea</Authors>
-    <Description>A console based "Rock, Paper, Scissors, Lizard, Spock" game as invented by Sam Kass and Karen Bryla</Description>
+    <Description>A console based "Rock Paper Scissors Lizard Spock" game as invented by Sam Kass and Karen Bryla</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.1</Version>
-    <Copyright />
+    <Version>1.0.2.0</Version>
+    <Copyright>Dan Rhea © 2019</Copyright>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
