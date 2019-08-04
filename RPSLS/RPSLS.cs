@@ -39,18 +39,27 @@ namespace RPSLS
 
         private static void Main(string[] args)
         {
-            bool Debug = false; // Turn inline debugging on or off
-            int PlayerScore = 0; // Player score
-            int ComputerScore = 0; // Computer score
-            string Result = ""; // Result string
-
+            bool Debug = false;     // Turn inline debugging on or off
+            int PlayerScore = 0;    // Player score
+            int ComputerScore = 0;  // Computer score
+            string Result = "";     // Result string
+            ConsoleColor Back = Console.BackgroundColor;
+            ConsoleColor Fore = Console.ForegroundColor;
+            ConsoleColor[] CMap = (ConsoleColor[])ConsoleColor.GetValues(typeof(ConsoleColor));
+            ConsoleColor CRed = CMap[12];
+            ConsoleColor CYellow = CMap[14];
+            ConsoleColor CBlue = CMap[9];
+            ConsoleColor CGreen = CMap[10];
             Random Rando = new Random(); // Some RNG for the computer
 
+            Console.ForegroundColor = CBlue;
             Wl("RPSLS "+GetVersion()+" a Rock Paper Scissors Lizard Spock game\n" +
                "as invented by  Sam Kass and Karen Bryla\n"+
                "written by Dan Rhea © 2019\n"+
                "under ther GPL3 license (enter \"License\" to view)\n");
+            Console.ForegroundColor = CGreen;
             W("RPSLS>");
+            Console.ForegroundColor = CYellow;
 
             string Input = Console.ReadLine();
             while (Input != null)
@@ -64,22 +73,30 @@ namespace RPSLS
                 // Process player input
                 if (Player == -1)
                 {
+                    Console.ForegroundColor = CRed;
                     Wl("I don't understand \"" + Input + "\", enter \"Rock\", \"Paper\", "+
                         "\"Scissors\", \"Lizard\" or \"Spock\", or\nenter \"License\" to view "+
                         "the license or enter nothing to exit.\n");
+                    Console.ForegroundColor = CYellow;
                 }
                 else if (Player == -2)
                 {
+                    Console.ForegroundColor = Fore;
+                    Console.BackgroundColor = Back;
                     break; // Exit 
                 }
                 else if (Player == -3)
                 {
+                    Console.ForegroundColor = CGreen;
                     ShowFile("\\gnu_gpl3.txt"); // Show GNU GPL3 license
                     Wl(" ");
+                    Console.ForegroundColor = CYellow;
                 }
                 else if (Player == -4)
                 {
+                    Console.ForegroundColor = CRed;
                     Wl("Very funny...\n"); // They got cute and entered "nothing" :)
+                    Console.ForegroundColor = CYellow;
                 }
                 else
                 {
@@ -105,13 +122,16 @@ namespace RPSLS
                     }
 
                     // Show what happened and the results
+                    Console.ForegroundColor = CYellow;
                     Console.WriteLine("{0} {1} {2}! {3} Player: {4} Computer: {5}\n",
                                       Alias[Player], VerbList[Verbs], Alias[Computer],
                                       Result, PlayerScore, ComputerScore);
                 }
 
                 // prompt the player for the next round
+                Console.ForegroundColor = CGreen;
                 Console.Write("RPSLS>");
+                Console.ForegroundColor = CYellow;
                 Input = Console.ReadLine();
             }
         }
@@ -138,7 +158,6 @@ namespace RPSLS
             int Ret = -1;
 
             if (Input.Length == 0) { return -2; }
-
             for (int Ix = 0; Ix < Alias.Length; Ix++)
             {
                 // Scan for an alias
