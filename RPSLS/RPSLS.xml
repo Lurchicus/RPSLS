@@ -59,5 +59,17 @@
             </summary>
             <returns>string input</returns>
         </member>
+        <member name="M:RPSLS.RPSLS.CFore(System.ConsoleColor)">
+            <summary>
+            Set the foreground color
+            </summary>
+            <param name="ForeHue">ConsoleColor value</param>
+        </member>
+        <member name="M:RPSLS.RPSLS.CBack(System.ConsoleColor)">
+            <summary>
+            Set the background color
+            </summary>
+            <param name="BackHue">ConsoleColor value</param>
+        </member>
     </members>
 </doc>

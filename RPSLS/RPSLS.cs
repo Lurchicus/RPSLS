@@ -43,6 +43,9 @@ namespace RPSLS
             int PlayerScore = 0;    // Player score
             int ComputerScore = 0;  // Computer score
             string Result = "";     // Result string
+
+            // Now with colorful text! :) - Save the initial colors, load all 16 colors into an
+            // array, then pull out the colors we want (Red, Yellow, Green and Blue)
             ConsoleColor Back = Console.BackgroundColor;
             ConsoleColor Fore = Console.ForegroundColor;
             ConsoleColor[] CMap = (ConsoleColor[])ConsoleColor.GetValues(typeof(ConsoleColor));
@@ -52,16 +55,16 @@ namespace RPSLS
             ConsoleColor CGreen = CMap[10];
             Random Rando = new Random(); // Some RNG for the computer
 
-            Console.ForegroundColor = CBlue;
+            CFore(CGreen);
             Wl("RPSLS "+GetVersion()+" a Rock Paper Scissors Lizard Spock game\n" +
                "as invented by  Sam Kass and Karen Bryla\n"+
                "written by Dan Rhea © 2019\n"+
                "under ther GPL3 license (enter \"License\" to view)\n");
-            Console.ForegroundColor = CGreen;
+            CFore(CGreen);
             W("RPSLS>");
-            Console.ForegroundColor = CYellow;
+            CFore(CYellow);
 
-            string Input = Console.ReadLine();
+            string Input = R();
             while (Input != null)
             {
                 int Computer = Rando.Next(4); // RNG computer alias
@@ -73,30 +76,34 @@ namespace RPSLS
                 // Process player input
                 if (Player == -1)
                 {
-                    Console.ForegroundColor = CRed;
+                    CFore(CRed);
                     Wl("I don't understand \"" + Input + "\", enter \"Rock\", \"Paper\", "+
                         "\"Scissors\", \"Lizard\" or \"Spock\", or\nenter \"License\" to view "+
                         "the license or enter nothing to exit.\n");
-                    Console.ForegroundColor = CYellow;
+                    CFore(CYellow);
                 }
                 else if (Player == -2)
                 {
-                    Console.ForegroundColor = Fore;
-                    Console.BackgroundColor = Back;
+                    CFore(Fore);
+                    CBack(Back);
                     break; // Exit 
                 }
                 else if (Player == -3)
                 {
-                    Console.ForegroundColor = CGreen;
+                    CFore(CYellow);
+                    CBack(CBlue);
+                    Console.Clear(); 
                     ShowFile("\\gnu_gpl3.txt"); // Show GNU GPL3 license
                     Wl(" ");
-                    Console.ForegroundColor = CYellow;
+                    CFore(CYellow);
+                    CBack(Back);
+                    Console.Clear();
                 }
                 else if (Player == -4)
                 {
-                    Console.ForegroundColor = CRed;
+                    CFore(CRed);
                     Wl("Very funny...\n"); // They got cute and entered "nothing" :)
-                    Console.ForegroundColor = CYellow;
+                    CFore(CYellow);
                 }
                 else
                 {
@@ -122,17 +129,17 @@ namespace RPSLS
                     }
 
                     // Show what happened and the results
-                    Console.ForegroundColor = CYellow;
+                    CFore(CYellow);
                     Console.WriteLine("{0} {1} {2}! {3} Player: {4} Computer: {5}\n",
                                       Alias[Player], VerbList[Verbs], Alias[Computer],
                                       Result, PlayerScore, ComputerScore);
                 }
 
                 // prompt the player for the next round
-                Console.ForegroundColor = CGreen;
-                Console.Write("RPSLS>");
-                Console.ForegroundColor = CYellow;
-                Input = Console.ReadLine();
+                CFore(CGreen);
+                W("RPSLS>");
+                CFore(CYellow);
+                Input = R();
             }
         }
 
@@ -301,6 +308,24 @@ namespace RPSLS
         public static string R()
         {
             return Console.ReadLine();
+        }
+
+        /// <summary>
+        /// Set the foreground color
+        /// </summary>
+        /// <param name="ForeHue">ConsoleColor value</param>
+        public static void CFore(ConsoleColor ForeHue)
+        {
+            Console.ForegroundColor = ForeHue;
+        }
+
+        /// <summary>
+        /// Set the background color
+        /// </summary>
+        /// <param name="BackHue">ConsoleColor value</param>
+        public static void CBack(ConsoleColor BackHue)
+        {
+            Console.BackgroundColor = BackHue;
         }
     }
 }
