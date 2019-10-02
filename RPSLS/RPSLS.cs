@@ -76,7 +76,7 @@ namespace RPSLS
                 // Process player input
                 if (Player == -1)
                 {
-                    CFore(CRed);
+                    CFore(CBlue);
                     Wl("I don't understand \"" + Input + "\", enter \"Rock\", \"Paper\", "+
                         "\"Scissors\", \"Lizard\" or \"Spock\", or\nenter \"License\" to view "+
                         "the license or enter nothing to exit.\n");
