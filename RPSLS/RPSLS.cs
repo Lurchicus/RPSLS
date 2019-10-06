@@ -32,7 +32,7 @@ namespace RPSLS
             // Rock             Paper              Scissors             Lizard            Spock 
               "matches",       "is covered by",   "smashes",           "crushes",        "is vaporized by", // Rock 
               "covers",        "matches",         "is cut by",         "is eaten by",    "disproves",       // Paper
-              "are broken by", "cuts",            "matches",           "decapatate",     "is smashed by",   // Scissors
+              "are broken by", "cuts",            "matches",           "decapatate",     "are smashed by",  // Scissors
               "is crushed by", "eats",            "is decapitated by", "matches",        "poisons",         // Lizard
               "vaporizes",     "is disproved by", "smashes",           "is poisoned by", "matches"          // Spock
         }; // Horizontal player alias vs vertical computer alias
