@@ -11,7 +11,7 @@ namespace RPSLS
     public class RPSLS
     {
         // Player and Computer alias for each round
-        public static string[] Alias = { "Rock", "Paper", "Scissors", "Lizard", "Spock" };
+        public static readonly string[] Alias = ["Rock", "Paper", "Scissors", "Lizard", "Spock"];
 
         // Extended rules
         // Spock smashes scissors and vaporizes rock; 
@@ -19,23 +19,23 @@ namespace RPSLS
         // Lizard poisons Spock and eats paper; 
         // Lizard is crushed by rock and decapitated by scissors.
 
-        public static int[] VerbMap = {
+        public static readonly int[] VerbMap = [
         //  Rock Paper Scissors Lizard Spock 
             0,  -1,    1,       1,    -1, // Rock
             1,   0,   -1,      -1,     1, // Paper
            -1,   1,    0,       1,    -1, // Scissors
            -1,   1,   -1,       0,     1, // Lizard
             1,  -1,    1,      -1,     0  // Spock
-        }; // Win(1), lose(-1) or draw(0) map
+        ]; // Win(1), lose(-1) or draw(0) map
 
-        public static string[] VerbList = {
+        public static readonly string[] VerbList = [
             // Rock             Paper              Scissors             Lizard            Spock 
               "matches",       "is covered by",   "smashes",           "crushes",        "is vaporized by", // Rock 
               "covers",        "matches",         "is cut by",         "is eaten by",    "disproves",       // Paper
-              "are broken by", "cuts",            "matches",           "decapatate",     "are smashed by",  // Scissors
+              "are broken by", "cuts",            "matches",           "decapatates",    "are smashed by",  // Scissors
               "is crushed by", "eats",            "is decapitated by", "matches",        "poisons",         // Lizard
               "vaporizes",     "is disproved by", "smashes",           "is poisoned by", "matches"          // Spock
-        }; // Horizontal player alias vs vertical computer alias
+        ]; // Horizontal player alias vs vertical computer alias
 
         enum ErrorState : int
         {
@@ -45,7 +45,7 @@ namespace RPSLS
             Nothing = -4,
         }
 
-        private static void Main(string[] args)
+        static void Main()
         {
             bool Debug = false;     // Turn inline debugging on or off
             int PlayerScore = 0;    // Player score
@@ -61,14 +61,14 @@ namespace RPSLS
             ConsoleColor CYellow = CMap[14];
             ConsoleColor CBlue = CMap[9];
             ConsoleColor CGreen = CMap[10];
-            Random Rando = new Random(); // Some RNG for the computer
+            Random Rando = new(); // Some RNG for the computer
 
-            CFore(CGreen);
+            CFore(CBlue);
             Wl("RPSLS "+GetVersion()+" a Rock Paper Scissors Lizard Spock game\n" +
                "as invented by  Sam Kass and Karen Bryla\n"+
-               "written by Dan Rhea © 2019\n"+
+               "written by Dan Rhea © 2019, 2022\n"+
                "under ther GPL3 license (enter \"License\" to view)\n");
-            CFore(CGreen);
+            CFore(CBlue);
             W("RPSLS>");
             CFore(CYellow);
 
@@ -123,28 +123,31 @@ namespace RPSLS
                     switch (VerbMap[Verbs])
                     {
                         case -1:
+                            CFore(CRed);
                             Result = "Player loses to Computer!";
                             ComputerScore++;
                             break;
                         case 1:
+                            CFore(CGreen);
                             Result = "Player wins over Computer!";
                             PlayerScore++;
                             break;
                         case 0:
                         default:
+                            CFore(CYellow);
                             Result = "Player ties with Computer!";
                             break;
                     }
 
                     // Show what happened and the results
-                    CFore(CYellow);
+                    //CFore(CYellow);
                     Console.WriteLine("{0} {1} {2}! {3} Player: {4} Computer: {5}\n",
                                       Alias[Player], VerbList[Verbs], Alias[Computer],
                                       Result, PlayerScore, ComputerScore);
                 }
 
                 // prompt the player for the next round
-                CFore(CGreen);
+                CFore(CBlue);
                 W("RPSLS>");
                 CFore(CYellow);
                 Input = R();
@@ -176,14 +179,14 @@ namespace RPSLS
             for (int Ix = 0; Ix < Alias.Length; Ix++)
             {
                 // Scan for an alias
-                if (Input.ToLower() == Alias[Ix].ToLower())
+                if (Input.Equals(Alias[Ix], StringComparison.CurrentCultureIgnoreCase))
                 {
                     Ret = Ix;
                     break;
                 }
             }
-            if (Input.ToLower() == "nothing") { return -4; }
-            if (Input.ToLower() == "license") { return -3; }
+            if (Input.Equals("nothing", StringComparison.CurrentCultureIgnoreCase)) { return -4; }
+            if (Input.Equals("license", StringComparison.CurrentCultureIgnoreCase)) { return -3; }
             if (Ret == -1) { return -1; }
 
             return Ret; // Alias index
@@ -205,7 +208,7 @@ namespace RPSLS
             string AppPath = SetPath(FileName, PathName);
             try
             {
-                using StreamReader sr = new StreamReader(AppPath);
+                using StreamReader sr = new(AppPath);
                 string line;
                 while ((line = sr.ReadLine()) != null)
                 {
@@ -252,8 +255,8 @@ namespace RPSLS
             {
                 AppPath = Assembly.GetExecutingAssembly().Location;
                 string Nam = Path.GetFileName(AppPath);
-                AppPath = AppPath.Substring(0, AppPath.Length - Nam.Length);
-                if (FileName.Substring(0, 2) != "\\")
+                AppPath = AppPath[..^Nam.Length];
+                if (FileName[..2] != "\\")
                 {
                     AppPath += "\\" + FileName;
                 }
@@ -264,7 +267,7 @@ namespace RPSLS
             }
             else
             {
-                if (FileName.Substring(0, 2) != "\\")
+                if (FileName[..2] != "\\")
                 {
                     AppPath += PathName + "\\" + FileName;
                 }
