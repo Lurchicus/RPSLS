@@ -5,7 +5,7 @@ using System.IO;
 namespace RPSLS
 {
     /// <summary>
-    /// A console version of the game Rock, Paper, Scissors, Lizard, Spock as 
+    /// A windows console version of the game Rock, Paper, Scissors, Lizard, Spock as 
     /// invented by Sam Kass and Karen Bryla
     /// </summary>
     public class RPSLS
@@ -13,7 +13,7 @@ namespace RPSLS
         // Player and Computer alias for each round
         public static readonly string[] Alias = ["Rock", "Paper", "Scissors", "Lizard", "Spock"];
 
-        // Extended rules
+        // Extended rules (beyond Rock, Paper Scissors)
         // Spock smashes scissors and vaporizes rock; 
         // Spock is poisoned by lizard and disproven by paper. 
         // Lizard poisons Spock and eats paper; 
@@ -28,6 +28,7 @@ namespace RPSLS
             1,  -1,    1,      -1,     0  // Spock
         ]; // Win(1), lose(-1) or draw(0) map
 
+        // I could have done this with a two dimensional array, but this is more fun
         public static readonly string[] VerbList = [
             // Rock             Paper              Scissors             Lizard            Spock 
               "matches",       "is covered by",   "smashes",           "crushes",        "is vaporized by", // Rock 
@@ -35,7 +36,7 @@ namespace RPSLS
               "are broken by", "cuts",            "matches",           "decapatates",    "are smashed by",  // Scissors
               "is crushed by", "eats",            "is decapitated by", "matches",        "poisons",         // Lizard
               "vaporizes",     "is disproved by", "smashes",           "is poisoned by", "matches"          // Spock
-        ]; // Horizontal player alias vs vertical computer alias
+        ]; // Horizontal player alias vs vertical computer alias (yes, I know it's inverted, not worth fixing)
 
         enum ErrorState : int
         {
@@ -45,6 +46,9 @@ namespace RPSLS
             Nothing = -4,
         }
 
+        /// <summary>
+        /// Traditional console program main (no longer needed in .Net 8.0)
+        /// </summary>
         static void Main()
         {
             bool Debug = false;     // Turn inline debugging on or off
