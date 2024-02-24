@@ -115,11 +115,11 @@ namespace RPSLS
                 }
                 else
                 {
-                    // Determine the index into the verb list
+                    // Determine the offset into the verb list
                     int Verbs = ((Player) * 5) + Computer;
                     if (Debug) { Console.WriteLine("Verbs:{0}", Verbs); }
 
-                    // Determine the results for the round
+                    // Use the offset to extract the result from the verb map
                     switch (VerbMap[Verbs])
                     {
                         case -1:
@@ -140,7 +140,6 @@ namespace RPSLS
                     }
 
                     // Show what happened and the results
-                    //CFore(CYellow);
                     Console.WriteLine("{0} {1} {2}! {3} Player: {4} Computer: {5}\n",
                                       Alias[Player], VerbList[Verbs], Alias[Computer],
                                       Result, PlayerScore, ComputerScore);
@@ -178,7 +177,7 @@ namespace RPSLS
             if (Input.Length == 0) { return -2; }
             for (int Ix = 0; Ix < Alias.Length; Ix++)
             {
-                // Scan for an alias
+                // Scan for a matching alias and use it's offset value
                 if (Input.Equals(Alias[Ix], StringComparison.CurrentCultureIgnoreCase))
                 {
                     Ret = Ix;
