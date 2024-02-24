@@ -2,12 +2,13 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <Authors>Dan Rhea</Authors>
     <Description>A console based "Rock Paper Scissors Lizard Spock" game as invented by Sam Kass and Karen Bryla</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>1.0.3.0</Version>
     <Copyright>Dan Rhea © 2019</Copyright>
+    <StartupObject>RPSLS.RPSLS</StartupObject>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

@@ -8,7 +8,7 @@ namespace RPSLS
     /// A console version of the game Rock, Paper, Scissors, Lizard, Spock as 
     /// invented by Sam Kass and Karen Bryla
     /// </summary>
-    class RPSLS
+    public class RPSLS
     {
         // Player and Computer alias for each round
         public static string[] Alias = { "Rock", "Paper", "Scissors", "Lizard", "Spock" };
@@ -37,12 +37,20 @@ namespace RPSLS
               "vaporizes",     "is disproved by", "smashes",           "is poisoned by", "matches"          // Spock
         }; // Horizontal player alias vs vertical computer alias
 
+        enum ErrorState : int
+        {
+            Invalid = -1,
+            Exit = -2,
+            License = -3,
+            Nothing = -4,
+        }
+
         private static void Main(string[] args)
         {
             bool Debug = false;     // Turn inline debugging on or off
             int PlayerScore = 0;    // Player score
             int ComputerScore = 0;  // Computer score
-            string Result = "";     // Result string
+            string Result;          // Result string
 
             // Now with colorful text! :) - Save the initial colors, load all 16 colors into an
             // array, then pull out the colors we want (Red, Yellow, Green and Blue)
@@ -74,7 +82,7 @@ namespace RPSLS
                 }
 
                 // Process player input
-                if (Player == -1)
+                if (Player == (int)ErrorState.Invalid)
                 {
                     CFore(CBlue);
                     Wl("I don't understand \"" + Input + "\", enter \"Rock\", \"Paper\", "+
@@ -82,13 +90,13 @@ namespace RPSLS
                         "the license or enter nothing to exit.\n");
                     CFore(CYellow);
                 }
-                else if (Player == -2)
+                else if (Player == (int)ErrorState.Exit)
                 {
                     CFore(Fore);
                     CBack(Back);
                     break; // Exit 
                 }
-                else if (Player == -3)
+                else if (Player == (int)ErrorState.License)
                 {
                     CFore(CYellow);
                     CBack(CBlue);
@@ -99,7 +107,7 @@ namespace RPSLS
                     CBack(Back);
                     Console.Clear();
                 }
-                else if (Player == -4)
+                else if (Player == (int)ErrorState.Nothing)
                 {
                     CFore(CRed);
                     Wl("Very funny...\n"); // They got cute and entered "nothing" :)
@@ -160,7 +168,7 @@ namespace RPSLS
         /// </summary>
         /// <param name="Input">Alias string</param>
         /// <returns>Alias index or -1 invalid or -2 exit</returns>
-        private static int ParseInput(string Input)
+        public static int ParseInput(string Input)
         {
             int Ret = -1;
 
@@ -194,34 +202,30 @@ namespace RPSLS
             Int32 ScreenWidth = Console.WindowWidth;
             Int32 Row = 0;
             String Inp = "";
-            String AppPath = "";
-
-            AppPath = SetPath(FileName, PathName);
+            string AppPath = SetPath(FileName, PathName);
             try
             {
-                using (StreamReader sr = new StreamReader(AppPath))
+                using StreamReader sr = new StreamReader(AppPath);
+                string line;
+                while ((line = sr.ReadLine()) != null)
                 {
-                    string line;
-                    while ((line = sr.ReadLine()) != null)
+                    Wl(line);
+                    if (line.Length > ScreenWidth - 1)
                     {
-                        Wl(line);
-                        if (line.Length > ScreenWidth - 1)
+                        Row += (Int32)(line.Length / ScreenWidth - 1);
+                    }
+                    else
+                    {
+                        Row++;
+                    }
+                    if (Row >= ScreenHeight - 1)
+                    {
+                        Row = 0;
+                        W("Press Enter to continue (enter q to quit):");
+                        Inp = R();
+                        if (Inp == "q" || Inp == "Q")
                         {
-                            Row = Row + (Int32)(line.Length / ScreenWidth - 1);
-                        }
-                        else
-                        {
-                            Row++;
-                        }
-                        if (Row >= ScreenHeight - 1)
-                        {
-                            Row = 0;
-                            W("Press Enter to continue (enter q to quit):");
-                            Inp = R();
-                            if (Inp == "q" || Inp == "Q")
-                            {
-                                break;
-                            }
+                            break;
                         }
                     }
                 }
@@ -242,13 +246,12 @@ namespace RPSLS
         /// <returns>Fully formed path with filename</returns>
         public static string SetPath(String FileName, String PathName = null)
         {
-            String Nam = "";
             String AppPath = "";
 
             if (PathName == null)
             {
                 AppPath = Assembly.GetExecutingAssembly().Location;
-                Nam = Path.GetFileName(AppPath);
+                string Nam = Path.GetFileName(AppPath);
                 AppPath = AppPath.Substring(0, AppPath.Length - Nam.Length);
                 if (FileName.Substring(0, 2) != "\\")
                 {
